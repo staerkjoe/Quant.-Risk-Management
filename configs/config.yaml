@@ -1,0 +1,33 @@
+DataConfig:
+  dataset_id: 144  # UCI ML Repo ID
+  test_size: 0.2
+  random_state: 21
+  
+  ordinal_features:
+    - checking_status
+    - credit_history
+    - savings
+    - employment
+    - job
+  
+  nominal_features:
+    - purpose
+    - personal_status_sex
+    - other_debtors
+    - property
+    - other_installment
+    - housing
+    - telephone
+    - foreign_worker
+  
+  num_features:
+    - duration
+    - credit_amount
+    - installment_rate
+    - residence_since
+    - age
+    - existing_credits
+    - people_liable
+    - credit_per_existing
+    - credit_per_age
+    - credit_per_duration
