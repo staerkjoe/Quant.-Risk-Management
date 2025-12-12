@@ -33,6 +33,13 @@ class DataLoader:
         }
         # Access as dictionary instead of attribute
         self.config = config['DataConfig']
+
+    def load_data(self) -> Tuple[pd.DataFrame, pd.Series]:
+        """Load raw data from UCI repository."""
+        df = self.load_and_prepare()
+        X = df.drop(columns=["credit_risk"])
+        y = df["credit_risk"]
+        return X, y
     
     def load_and_prepare(self) -> pd.DataFrame:
         """Load data from UCI, rename columns, transform target, and create features."""
