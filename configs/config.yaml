@@ -32,6 +32,14 @@ DataConfig:
     - credit_per_age
     - credit_per_duration
 
+# Trainer Configuration
+trainer:
+  use_calibration: true  # Use probability calibration (recommended!)
+  cost_fp: 1.0          # Cost of rejecting Good customer
+  cost_fn: 2.5          # Cost of accepting Bad customer (try 2.5, 3.0, or 4.0)
+  # Lower cost_fn = accept more customers (higher Good recall, higher risk)
+  # Higher cost_fn = reject more customers (lower Good recall, lower risk)
+
 # Model Configurations
 model:
 
@@ -63,23 +71,23 @@ model:
     reg_lambda: 10
     reg_alpha: 0.5
     gamma: 0
-    scale_pos_weight: 2.33  # Add this! (ratio of Good/Bad classes ~700/300)
-    min_child_weight: 1     # Add this - lower allows more aggressive splits
+    scale_pos_weight: 0.8  # Even lower - let threshold do the work
+    min_child_weight: 1
     
     # GridSearch
     cv_folds: 5
-    scoring: "recall"
+    scoring: "f1"
     param_grid:
-      clf__n_estimators: [300, 500, 1000]
-      clf__max_depth: [3, 5]
-      clf__learning_rate: [0.001, 0.01, 0.1]
-      clf__subsample: [0.6, 0.9]
-      clf__colsample_bytree: [0.7, 1.0]
-      clf__reg_lambda: [0, 1, 5]
-      clf__reg_alpha: [0, 0.5, 1.0]
-      clf__gamma: [0, 0.5, 1.0]
-      clf__scale_pos_weight: [2, 2.33, 3]  # Test different weights
-      clf__min_child_weight: [1, 3, 5]  # Add this
+      clf__n_estimators: [300]
+      clf__max_depth: [4, 5]  # Slightly deeper
+      clf__learning_rate: [0.005, 0.01]
+      clf__subsample: [0.7, 0.8]
+      clf__colsample_bytree: [0.8, 0.9]
+      clf__reg_lambda: [2, 3]  # Even less regularization
+      clf__reg_alpha: [0.2, 0.3]
+      clf__gamma: [0]
+      clf__scale_pos_weight: [0.6, 0.8, 1.0]  # Lower range
+      clf__min_child_weight: [1, 2]  # Lower to allow more splits
 
 WandB:
   project_name: "QuantitativeRiskManagement"
