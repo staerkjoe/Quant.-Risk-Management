@@ -26,7 +26,7 @@ class ModelLoader:
              self.data_config['nominal_features']),
             ("ordinal", OrdinalEncoder(handle_unknown="use_encoded_value", 
              unknown_value=-1), self.data_config['ordinal_features']),
-            ("num", RobustScaler(), self.data_config['num_features'])
+            ("num", StandardScaler(), self.data_config['num_features'])
         ])
     
     def _get_tree_preprocessor(self) -> ColumnTransformer:
